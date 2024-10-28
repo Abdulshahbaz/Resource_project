@@ -1,31 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Resource</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        .container {
-            width: 50%;
-            height: auto;
-            border: 1px solid gray;
-            margin-top: 42px;
-        }
-    </style>
-</head>
+@extends('layout.app')
+@section('content')
 
-<body>
-    
-    <h1 class="mt-3" style="text-align: center">User List </h1>
-    <div class="container-lg">
-        <div class="card mb-4">
+    <div class="containerss">
+        <div class="card">
             <div class="card-header">
-                <a href="{{ route('users.create ') }}" class="btn btn-primary float-end"><span
-                        class="cil-contrast "></span> Add New User</a>
+                <h5>Task List</h5>
+                <a href="{{ route('task.create') }}" class="btn btn-primary float-end"><span
+                        class="cil-contrast "></span> Add New Task</a>
             </div>
 
             <div class="card-body">
@@ -49,9 +31,9 @@
                                         <th>ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-
-                                    @foreach ($user as $item)
+                                <tbody>                                
+                                                                                  
+                                    @foreach ($user as $key=>$item)
                                         @php
                                             $date = Carbon\Carbon::parse($item->due_date);
                                           
@@ -62,19 +44,19 @@
                                         <tr @if (!$iscompelted && $date->ispast()) style="background-color:red;" @else
                                              style="background-color:green;" @endif
                                                class="user-row" data-status="{{ $item->status }}">
-                                            <td>{{ $item->id }}</td>
+                                            <td>{{ $key + 1 }}</td>
                                             <td>{{ $item->title }}</td>
                                             <td>{{ $item->due_date }}</td>
                                             <td>{{ $item->status }}</td>
                                             <td>
-                                                <a href="{{ url('users/' . $item->id) }}"
+                                                <a href="{{ route('task.show', $item->id) }}"
                                                     class="btn btn-sm btn-info">View</a>
                                                 @if (!$ispasdate)
-                                                    <a href="{{ url('users/' . $item->id . '/edit') }}"
+                                                    <a href="{{ route('task.edit', $item->id, '/edit') }}"
                                                         class="btn  btn-sm btn-success" desiable>Edit</a>
                                                 @endif
 
-                                                <form action="{{ url('users/' . $item->id) }}" method="POST"
+                                                <form action="{{ route('task.destroy', $item->id) }}" method="POST"
                                                     class="d-inline">
                                                     {{ csrf_field() }}
                                                     @method('Delete')
@@ -96,6 +78,7 @@
             </div>
         </div>
     </div>
+   
     <script>
         document.getElementById('status').addEventListener('change', function() {
             var selectedStatus = this.value;
@@ -110,6 +93,12 @@
             });
         });
     </script>
-</body>
-
-</html>
+    <style>
+        .containerss {
+            width: 78%;
+            height: auto;
+            margin-top: 42px;
+            margin-left: 20%;
+        }
+    </style>
+ @endsection
