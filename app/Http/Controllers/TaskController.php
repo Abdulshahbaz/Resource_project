@@ -12,8 +12,8 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Task::paginate(10);
-        return view('list',['user'=>$user]);
+        $userdata = Task::paginate(10);
+        return view('list',['userdata'=>$userdata]);
     }
 
     /**
@@ -35,12 +35,12 @@ class TaskController extends Controller
              'due_date' => 'required|date|after_or_equal:today',
              'status' => 'required',
         ]);
-       $user = new Task;
-       $user->title = $request->input('title');
-       $user->description = $request->input('description');
-       $user->due_date = $request->input('due_date');
-       $user->status = $request->input('status');
-       $user->save();
+       $data = new Task;
+       $data->title = $request->input('title');
+       $data->description = $request->input('description');
+       $data->due_date = $request->input('due_date');
+       $data->status = $request->input('status');
+       $data->save();
 
        return redirect('task')->with('success','Task Add SuccessFully!');
     }
@@ -66,16 +66,15 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,$id)
     {
-       
-      $user = Task::find($id);
-      $user->title = $request->input('title');
-      $user->description = $request->input('description');
-      $user->due_date = $request->input('due_date');
-      $user->status = $request->input('status');
+      $updatedata = Task::find($id);
+      $updatedata->title = $request->input('title');
+      $updatedata->description = $request->input('description');
+      $updatedata->due_date = $request->input('due_date');
+      $updatedata->status = $request->input('status');
      
-      $user->update();
+      $updatedata->update();
 
       return redirect('task')->with('success','Task Update SuccessFully!');
     }
@@ -96,3 +95,4 @@ class TaskController extends Controller
         return redirect()->back()->with('success','Task Deleted SuccessFully!');
     }
 }
+

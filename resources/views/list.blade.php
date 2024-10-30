@@ -33,7 +33,7 @@
                                 </thead>
                                 <tbody>                                
                                                                                   
-                                    @foreach ($user as $key=>$item)
+                                    @foreach ($userdata as $key=>$item)
                                         @php
                                             $date = Carbon\Carbon::parse($item->due_date);
                                           
@@ -70,7 +70,7 @@
                                 </tbody>
                             </table>
                             <div class="float-end">
-                                {{ $user->links() }}
+                                {{ $userdata->links() }}
                             </div>
                         </div>
                     </div>

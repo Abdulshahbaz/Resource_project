@@ -10,9 +10,9 @@
                         </h1>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('task.update', $updatedata->id) }}" method="POST" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                           @method('PUT')
+                        <form action="{{ route('task.update',$updatedata->id) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="_method" value="PUT">
                             <div class="mb-3">
                                 <label for="exampleInputTitle" class="form-label mt-1">Title</label>
                                 <input type="text" class="form-control" name="title" value="{{ $updatedata->title }}"
@@ -50,7 +50,6 @@
                             @error('status')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
-
                             <button type="submit" class="btn btn-primary mb-3">Update</button>
                         </form>
                     </div>
