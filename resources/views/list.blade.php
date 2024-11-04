@@ -1,13 +1,11 @@
-
 @extends('layout.app')
 @section('content')
-
     <div class="containerss">
         <div class="card">
             <div class="card-header">
                 <h5>Task List</h5>
-                <a href="{{ route('task.create') }}" class="btn btn-primary float-end"><span
-                        class="cil-contrast "></span> Add New Task</a>
+                <a href="{{ route('task.create') }}" class="btn btn-primary float-end"><span class="cil-contrast "></span> Add
+                    New Task</a>
             </div>
 
             <div class="card-body">
@@ -31,19 +29,19 @@
                                         <th>ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody>                                
-                                                                                  
-                                    @foreach ($userdata as $key=>$item)
+                                <tbody>
+
+                                    @foreach ($tasks as $key => $item)
                                         @php
                                             $date = Carbon\Carbon::parse($item->due_date);
-                                          
+
                                             $iscompelted = strtolower($item->status) === 'compeleted';
                                             $ispasdate = !$iscompelted && $date->ispast();
                                         @endphp
 
                                         <tr @if (!$iscompelted && $date->ispast()) style="background-color:red;" @else
                                              style="background-color:green;" @endif
-                                               class="user-row" data-status="{{ $item->status }}">
+                                            class="user-row" data-status="{{ $item->status }}">
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $item->title }}</td>
                                             <td>{{ $item->due_date }}</td>
@@ -52,7 +50,7 @@
                                                 <a href="{{ route('task.show', $item->id) }}"
                                                     class="btn btn-sm btn-info">View</a>
                                                 @if (!$ispasdate)
-                                                    <a href="{{ route('task.edit', $item->id, '/edit') }}"
+                                                    <a href="{{ route('task.edit', $item->id) }}"
                                                         class="btn  btn-sm btn-success" desiable>Edit</a>
                                                 @endif
 
@@ -62,7 +60,7 @@
                                                     @method('Delete')
                                                     <button type="submit" class="btn btn-sm btn-danger"
                                                         onclick="return confirm('Are you sure you want to delete this data?')">
-                                                        Delete</button>
+                                                        Delete </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -78,7 +76,7 @@
             </div>
         </div>
     </div>
-   
+
     <script>
         document.getElementById('status').addEventListener('change', function() {
             var selectedStatus = this.value;
@@ -101,4 +99,4 @@
             margin-left: 20%;
         }
     </style>
- @endsection
+@endsection

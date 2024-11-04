@@ -12,8 +12,8 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $userdata = Task::paginate(10);
-        return view('list',['userdata'=>$userdata]);
+        $tasks = Task::paginate(10);
+        return view('list', ['tasks' => $tasks]);
     }
 
     /**
@@ -29,20 +29,21 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-         $request->validate([
-             'title' => 'required',
-             'description' => 'required',
-             'due_date' => 'required|date|after_or_equal:today',
-             'status' => 'required',
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'due_date' => 'required|date|after_or_equal:today',
+            'status' => 'required',
         ]);
-       $data = new Task;
-       $data->title = $request->input('title');
-       $data->description = $request->input('description');
-       $data->due_date = $request->input('due_date');
-       $data->status = $request->input('status');
-       $data->save();
 
-       return redirect('task')->with('success','Task Add SuccessFully!');
+        $task = new Task;
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->due_date = $request->input('due_date');
+        $task->status = $request->input('status');
+        $task->save();
+
+        return redirect('task')->with('success', 'Task Add SuccessFully!');
     }
 
     /**
@@ -50,8 +51,8 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        $userdata = Task::find($id);
-       return view('show',['userdata'=>$userdata]);
+        $task = Task::find($id);
+        return view('show', ['task' => $task]);
     }
 
     /**
@@ -59,24 +60,24 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
-        $updatedata = Task::find($id);
-        return view('edit',['updatedata'=>$updatedata]);
+        $task = Task::find($id);
+        return view('edit', ['task' => $task]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-      $updatedata = Task::find($id);
-      $updatedata->title = $request->input('title');
-      $updatedata->description = $request->input('description');
-      $updatedata->due_date = $request->input('due_date');
-      $updatedata->status = $request->input('status');
-     
-      $updatedata->update();
+        $task = Task::find($id);
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->due_date = $request->input('due_date');
+        $task->status = $request->input('status');
 
-      return redirect('task')->with('success','Task Update SuccessFully!');
+        $task->update();
+
+        return redirect('task')->with('success', 'Task Update SuccessFully!');
     }
 
     /**
@@ -85,14 +86,11 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
 
-        $userdelete = Task::find($id);
-        if(!is_null($userdelete))
-        {
-            $userdelete->delete();
-            
+        $task = Task::find($id);
+        if (!is_null($task)) {
+            $task->delete();
         }
 
-        return redirect()->back()->with('success','Task Deleted SuccessFully!');
+        return redirect()->back()->with('success', 'Task Deleted SuccessFully!');
     }
 }
-
